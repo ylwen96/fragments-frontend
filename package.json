@@ -1,6 +1,7 @@
 {
   "name": "fragments-frontend",
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "description": "Fragments frontend web app",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -34,5 +35,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuelin-wen/fragments-frontend.git"
+  },
+  "author": "Yuelin Wen <weny36@mcmaster.ca>",
+  "license": "UNLICENSED"
 }
