@@ -17,6 +17,8 @@
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Don't include .env, which might have sensitive information
 .env
 
 npm-debug.log*
