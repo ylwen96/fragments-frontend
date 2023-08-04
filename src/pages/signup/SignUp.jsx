@@ -8,8 +8,10 @@ import {
   Link,
   Typography,
 } from "@mui/material";
+import { Auth } from "../../util/auth";
+import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +20,9 @@ const SignUp = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmedPasswordError, setConfirmedPasswordError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
+  const {onDataFromSignUp} = props;
+
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -45,7 +50,7 @@ const SignUp = () => {
     setSignUpError(false);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     // Simple form validation
@@ -68,15 +73,35 @@ const SignUp = () => {
       return;
     }
 
-    // Clear form fields after successful submission
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmedPassword("");
+    const requestBody = {
+      username: username,
+      email: email,
+      password: password,
+    };
 
+    onDataFromSignUp(requestBody.username)
+
+    // Clear form fields after successful submission
     // Simulate sign-up process
     // You can perform API calls or other authentication logic here
+    try {
+      const { user } = await Auth.signUp({
+        username: requestBody.username,
+        password: requestBody.password,
+        attributes: {
+          email: requestBody.email, // optional
+        },
+        autoSignIn: {
+          // optional - enables auto sign in after user is confirmed
+          enabled: true,
+        },
+      });
+      console.log("your user has sign up successfully",user);
+    } catch (error) {
+      console.log("error signing up:", error);
+    }
     console.log("Signed up successfully!");
+    navigate('/signup/confirm-signup')
   };
 
   const validateEmail = (email) => {
@@ -93,8 +118,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="login-container">
-      <Card elevation={5} className="login-card">
+    <div className="signup-container">
+      <Card elevation={5} className="signup-card">
         <Typography sx={{ mb: 2 }} component="h1" variant="h5">
           Sign Up
         </Typography>
@@ -118,7 +143,7 @@ const SignUp = () => {
           </Alert>
         )}
 
-        <form onSubmit={handleFormSubmit} className="login-form">
+        <form onSubmit={handleFormSubmit} className="signup-form">
           <TextField
             required
             id="username"
@@ -134,7 +159,6 @@ const SignUp = () => {
             required
             id="email"
             autoComplete="email"
-            autoFocus
             fullWidth
             label="Email"
             variant="standard"

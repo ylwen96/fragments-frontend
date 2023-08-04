@@ -8,61 +8,56 @@ import {
   Link,
   Typography,
 } from "@mui/material";
+import { Auth } from "../../util/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [loginError, setLoginError] = useState(false);
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-    setEmailError(false);
+  const navigate = useNavigate();
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
     setPasswordError(false);
     setLoginError(false);
   };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setEmailError(false);
     setPasswordError(false);
     setLoginError(false);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const requestBody = { email: email, password: password };
 
     // Simple form validation
     let isValid = true;
-    if (!validateEmail(email)) {
-      setEmailError(true);
-      isValid = false;
-      return;
-    }
     if (!validatePassword(password)) {
       setPasswordError(true);
       isValid = false;
-      return;
     }
     if (!isValid) {
       setLoginError(true);
       return;
     }
 
-    console.log(requestBody)
-    
-    setEmail("")
-    setPassword("")
+    setUsername("");
+    setPassword("");
 
     // Simulate login process
     // You can perform API calls or other authentication logic here
+    try {
+      const user =  await Auth.signIn(username, password);
+      console.log(user)
+    } catch (error) {
+      console.log("error signing in", error);
+      isValid = false;
+    }
     console.log("Logged in successfully!");
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    navigate("/")
   };
 
   const validatePassword = (password) => {
@@ -75,9 +70,6 @@ const Login = () => {
         <Typography sx={{ mb: 2 }} component="h1" variant="h5">
           Log In
         </Typography>
-        {emailError && (
-          <Alert severity="error">Please enter a valid email address.</Alert>
-        )}
         {passwordError && (
           <Alert severity="error">
             Please enter a password between 8 to 16 characters.
@@ -91,14 +83,14 @@ const Login = () => {
         <form onSubmit={handleFormSubmit} className="login-form">
           <TextField
             required
-            id="email"
-            autoComplete="email"
+            id="username"
+            autoComplete="username"
             autoFocus
             fullWidth
-            label="Email"
+            label="Username"
             variant="standard"
-            onChange={handleEmailChange}
-            value={email}
+            onChange={handleUsernameChange}
+            value={username}
           />
           <TextField
             required
