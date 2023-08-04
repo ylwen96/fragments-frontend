@@ -3,15 +3,11 @@ import "./styles.scss";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/Footer";
 
-const Home = (props) => {
-  const { user, signOut } = props;
-  console.log(user);
-
+const Home = () => {
   return (
     <div>
-      <Navbar signOut={signOut} />
+      <Navbar />
       Home page
-      <span>Hello {user.username}</span>
       <Footer />
     </div>
   );

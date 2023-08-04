@@ -1,19 +1,18 @@
+// import { withAuthenticator } from '@aws-amplify/ui-react';
+// import '@aws-amplify/ui-react/styles.css';
+
 import Home from "./pages/home/Home";
 
-import { Amplify } from 'aws-amplify';
-
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-
-import awsExports from './aws-exports';
-Amplify.configure(awsExports);
-
-function App({ signOut, user }) {
+function App() {
   return (
-    <>
-      <Home user={user} signOut={signOut}/>
-    </>
+    <div>
+      <Home />
+    </div>
   );
 }
 
-export default withAuthenticator(App);
+export default App;
+
+// export default withAuthenticator(App, {
+//   signUpAttributes: ['email', 'name'],
+// });
