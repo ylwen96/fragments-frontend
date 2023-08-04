@@ -7,10 +7,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import HomeIcon from "@mui/icons-material/Home";
-import { useState } from "react";
 
-const Navbar = () => {
-  const [login, setLogin] = useState(false);
+const Navbar = (props) => {
+  const { signOut } = props;
+
   return (
     <div className="navbar-container">
       <Box sx={{ flexGrow: 1 }}>
@@ -28,11 +28,9 @@ const Navbar = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Fragments
             </Typography>
-            {login ? (
-              <Button color="inherit">Login</Button>
-            ) : (
-              <Button color="inherit">Log off</Button>
-            )}
+            <Button color="inherit" onClick={signOut}>
+              Log off
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
