@@ -20,7 +20,7 @@ const SignUp = (props) => {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmedPasswordError, setConfirmedPasswordError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
-  const {onDataFromSignUp} = props;
+  const { onDataFromSignUp } = props;
 
   const navigate = useNavigate();
 
@@ -53,6 +53,12 @@ const SignUp = (props) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    const requestBody = {
+      username: username,
+      email: email,
+      password: password,
+    };
+
     // Simple form validation
     let isValid = true;
     if (!validateEmail(email)) {
@@ -73,19 +79,13 @@ const SignUp = (props) => {
       return;
     }
 
-    const requestBody = {
-      username: username,
-      email: email,
-      password: password,
-    };
-
-    onDataFromSignUp(requestBody.username)
+    onDataFromSignUp(requestBody.username);
 
     // Clear form fields after successful submission
     // Simulate sign-up process
     // You can perform API calls or other authentication logic here
     try {
-      const { user } = await Auth.signUp({
+      const user = await Auth.signUp({
         username: requestBody.username,
         password: requestBody.password,
         attributes: {
@@ -96,12 +96,12 @@ const SignUp = (props) => {
           enabled: true,
         },
       });
-      console.log("your user has sign up successfully",user);
+      console.log("your user has sign up successfully", user);
     } catch (error) {
       console.log("error signing up:", error);
     }
     console.log("Signed up successfully!");
-    navigate('/signup/confirm-signup')
+    navigate("/signup/confirm-signup");
   };
 
   const validateEmail = (email) => {

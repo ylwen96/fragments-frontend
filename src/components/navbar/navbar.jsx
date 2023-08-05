@@ -9,8 +9,21 @@ import {
   IconButton,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import { useNavigate } from "react-router-dom";
+import { Auth } from "../../util/auth";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogOff = async () => {
+    try {
+      await Auth.signOut();
+      navigate("/login");
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
+  };
+
   return (
     <div className="navbar-container">
       <Box sx={{ flexGrow: 1 }}>
@@ -30,7 +43,9 @@ const Navbar = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               My Fragments
             </Typography>
-            <Button color="inherit">Log off</Button>
+            <Button color="inherit" onClick={handleLogOff}>
+              Log off
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>

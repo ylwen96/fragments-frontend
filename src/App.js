@@ -9,21 +9,26 @@ import ConfirmSignUp from "./pages/signup/confirmSignUp/ConfirmSignUp";
 
 function App() {
   const [username, setUsername] = useState("");
+  const [user, setUser] = useState({});
 
-  const usernameFromSignUp = (name) => {
-    setUsername(name)
+  const dataFromSignUp = (username) => {
+    setUsername(username)
+  }
+
+  const dataFromPrivateRoute = (user) => {
+    setUser(user)
   }
 
   return (
     <>
       <Navbar />
       <Routes>
-        <Route element={<PrivateRoutes username={username} />}>
-          <Route path="/" element={<Home />} />
+        <Route element={<PrivateRoutes onDataFromPrivateRoute={dataFromPrivateRoute} />}>
+          <Route path="/" element={<Home user={user} />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" >
-          <Route index element={<SignUp onDataFromSignUp={usernameFromSignUp} />} />
+          <Route index element={<SignUp onDataFromSignUp={dataFromSignUp} />} />
           <Route path="confirm-signup" element={<ConfirmSignUp username={username} />} />
         </Route>
       </Routes>

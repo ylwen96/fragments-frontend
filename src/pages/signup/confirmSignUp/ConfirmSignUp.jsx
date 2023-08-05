@@ -9,7 +9,7 @@ const ConfirmSignUp = (props) => {
   const [loginError, setLoginError] = useState(false);
   const [resendCodeMsg, setResendCodeMsg] = useState(false);
   const navigate = useNavigate();
-  const {username} = props;
+  const { username } = props;
 
   const handleCodeChange = (event) => {
     setCode(event.target.value);

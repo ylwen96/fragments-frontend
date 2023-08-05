@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.scss";
 
-const Home = () => {
+const Home = (props) => {
   return (
     <div>
       Home page

@@ -16,7 +16,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [loginError, setLoginError] = useState(false);
-
   const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
@@ -33,6 +32,14 @@ const Login = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    const requestBody = {
+      username: username,
+      password: password,
+    };
+
+    setUsername("");
+    setPassword("");
+
     // Simple form validation
     let isValid = true;
     if (!validatePassword(password)) {
@@ -44,20 +51,16 @@ const Login = () => {
       return;
     }
 
-    setUsername("");
-    setPassword("");
-
     // Simulate login process
     // You can perform API calls or other authentication logic here
     try {
-      const user =  await Auth.signIn(username, password);
-      console.log(user)
+      await Auth.signIn(requestBody.username, requestBody.password);
     } catch (error) {
       console.log("error signing in", error);
       isValid = false;
     }
     console.log("Logged in successfully!");
-    navigate("/")
+    navigate("/");
   };
 
   const validatePassword = (password) => {
