@@ -48,7 +48,6 @@ const Login = () => {
     }
     if (!isValid) {
       setLoginError(true);
-      return;
     }
 
     // Simulate login process

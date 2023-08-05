@@ -26,7 +26,7 @@ const PrivateRoutes = (props) => {
     }, []);
 
     return (
-        user !== null ? <Outlet /> : <Navigate to="/login" />
+        user !== {} ? <Outlet /> : <Navigate to="/login" />
     )
 }
 

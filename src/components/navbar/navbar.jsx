@@ -12,12 +12,13 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "../../util/auth";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const navigate = useNavigate();
+  const { user } = props;
 
   const handleLogOff = async () => {
     try {
-      await Auth.signOut();
+      await Auth.signOut({ global: true });
       navigate("/login");
     } catch (error) {
       console.log("error signing out: ", error);
@@ -29,14 +30,14 @@ const Navbar = () => {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            {/* <div style={{"marginRight":"56px"}}> </div> */}
             <IconButton
               size="large"
               edge="start"
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              disabled
+              disabled={!user}
+              href="/"
             >
               <HomeIcon />
             </IconButton>

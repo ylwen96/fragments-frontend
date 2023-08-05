@@ -21,7 +21,7 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      <Navbar user={user} />
       <Routes>
         <Route element={<PrivateRoutes onDataFromPrivateRoute={dataFromPrivateRoute} />}>
           <Route path="/" element={<Home user={user} />} />
