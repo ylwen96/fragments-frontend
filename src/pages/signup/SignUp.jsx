@@ -8,7 +8,7 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { Auth } from "../../util/auth";
+import { signUp } from "../../util/auth";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = (props) => {
@@ -20,7 +20,7 @@ const SignUp = (props) => {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmedPasswordError, setConfirmedPasswordError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
-  const { onDataFromSignUp } = props;
+  const {onFetchUserFromSignUp} = props
 
   const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ const SignUp = (props) => {
     setSignUpError(false);
   };
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
 
     const requestBody = {
@@ -79,29 +79,18 @@ const SignUp = (props) => {
       return;
     }
 
-    onDataFromSignUp(requestBody.username);
-
     // Clear form fields after successful submission
     // Simulate sign-up process
     // You can perform API calls or other authentication logic here
-    try {
-      const user = await Auth.signUp({
-        username: requestBody.username,
-        password: requestBody.password,
-        attributes: {
-          email: requestBody.email, // optional
-        },
-        autoSignIn: {
-          // optional - enables auto sign in after user is confirmed
-          enabled: true,
-        },
-      });
-      console.log("your user has sign up successfully", user);
-    } catch (error) {
-      console.log("error signing up:", error);
-    }
-    console.log("Signed up successfully!");
-    navigate("/signup/confirm-signup");
+    signUp(requestBody.username, requestBody.email, requestBody.password).then(
+      (res) => {
+        if (res != null) {
+          isValid = true;
+          onFetchUserFromSignUp(res)
+          navigate("/signup/confirm-signup");
+        }
+      }
+    );
   };
 
   const validateEmail = (email) => {

@@ -1,29 +1,8 @@
-import { Auth } from "./auth";
 import { Outlet, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const PrivateRoutes = (props) => {
-    const [user, setUser] = useState({});
-    const { onDataFromPrivateRoute } = props;
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const userInfo = await Auth.currentAuthenticatedUser();
-                setUser({
-                    username: userInfo.username,
-                    userId: userInfo.attributes.sub,
-                    email: userInfo.attributes.email
-                });
-                onDataFromPrivateRoute(user);
-            } catch (error) {
-                console.log("Error fetching user info:", error);
-            }
-        }
-
-        fetchUser();
-        // eslint-disable-next-line
-    }, []);
+    const user = useSelector((state) => state.user);
 
     return (
         user !== {} ? <Outlet /> : <Navigate to="/login" />

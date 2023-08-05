@@ -74,4 +74,63 @@ async function getUser() {
   }
 }
 
-export { Auth, getUser };
+async function signIn(username, password) {
+  try {
+    const user = await Auth.signIn(username, password);
+    return user
+  } catch (error) {
+    console.log('error signing in', error);
+    return null
+  }
+}
+
+async function signUp(username, email, password) {
+  try {
+    const { user } = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email,          // optional
+      },
+      autoSignIn: { // optional - enables auto sign in after user is confirmed
+        enabled: true,
+      }
+    });
+    console.log("your user has sign up successfully", user);
+    return user
+  } catch (error) {
+    console.log('error signing up:', error);
+    return null
+  }
+}
+
+async function signOut() {
+  try {
+    await Auth.signOut();
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
+
+async function resendConfirmationCode(username) {
+  try {
+    await Auth.resendSignUp(username);
+    console.log('code resent successfully');
+    return true
+  } catch (err) {
+    console.log('error resending code: ', err);
+    return false
+  }
+}
+
+async function confirmSignUp(username, code) {
+  try {
+    await Auth.confirmSignUp(username, code);
+    return true
+  } catch (error) {
+    console.log('error confirming sign up', error);
+    return false
+  }
+}
+
+export { Auth, getUser, signIn, signUp, signOut, confirmSignUp, resendConfirmationCode };

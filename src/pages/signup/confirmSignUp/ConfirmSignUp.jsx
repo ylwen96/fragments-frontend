@@ -1,52 +1,43 @@
 import { useState } from "react";
 import "./styles.scss";
 import { Card, TextField, Alert, Button, Typography } from "@mui/material";
-import { Auth } from "../../../util/auth";
+import { confirmSignUp, resendConfirmationCode } from "../../../util/auth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserSignIn } from "../../../redux/auth/authSlice";
 
 const ConfirmSignUp = (props) => {
   const [code, setCode] = useState("");
   const [loginError, setLoginError] = useState(false);
   const [resendCodeMsg, setResendCodeMsg] = useState(false);
+  // const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { username } = props;
+  const user = props;
 
   const handleCodeChange = (event) => {
     setCode(event.target.value);
     setLoginError(false);
   };
 
-  const handleResendCode = async () => {
-    try {
-      // const username = await Auth.currentAuthenticatedUser();
-      await Auth.resendSignUp(username);
-      // Code resent successfully
-      setResendCodeMsg(true);
-      // You may display a success message or update the UI accordingly
-    } catch (error) {
-      console.log("Error resending code:", error);
-      // Handle the error appropriately (e.g., show an error message)
-    }
+  const handleResendCode = () => {
+    resendConfirmationCode(user.username).then((res) => setResendCodeMsg(true));
   };
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
     let isValid = true;
     setCode("");
     // Simulate login process
     // You can perform API calls or other authentication logic here
-    try {
-      // const username = await Auth.currentAuthenticatedUser();
-      await Auth.confirmSignUp(username, code);
-    } catch (error) {
-      console.log("error confirming sign up", error);
-      isValid = false;
-    }
+    confirmSignUp(user.username, code).then((res) => {
+      isValid = res;
+      dispatch(setUserSignIn(res));
+    });
     if (!isValid) {
       setLoginError(true);
       return;
     }
-    console.log("Logged in successfully!");
     navigate("/");
   };
 

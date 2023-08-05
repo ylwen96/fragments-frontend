@@ -8,8 +8,10 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { Auth } from "../../util/auth";
+import { signIn } from "../../util/auth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserSignIn } from "../../redux/auth/authSlice";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -17,6 +19,7 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -52,14 +55,13 @@ const Login = () => {
 
     // Simulate login process
     // You can perform API calls or other authentication logic here
-    try {
-      await Auth.signIn(requestBody.username, requestBody.password);
-    } catch (error) {
-      console.log("error signing in", error);
-      isValid = false;
-    }
-    console.log("Logged in successfully!");
-    navigate("/");
+    signIn(requestBody.username, requestBody.password).then((res) => {
+      if (res != null) {
+        isValid = true;
+        dispatch(setUserSignIn(res));
+      }
+      navigate("/");
+    });
   };
 
   const validatePassword = (password) => {

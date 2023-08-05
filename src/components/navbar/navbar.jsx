@@ -10,19 +10,20 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
-import { Auth } from "../../util/auth";
+import { signOut } from "../../util/auth";
+import { useDispatch,useSelector } from "react-redux";
+import { setUserSignOut } from "../../redux/auth/authSlice";
 
-const Navbar = (props) => {
+const Navbar = () => {
   const navigate = useNavigate();
-  const { user } = props;
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch()
 
-  const handleLogOff = async () => {
-    try {
-      await Auth.signOut({ global: true });
+  const handleLogOff = () => {
+    signOut().then(() => {
       navigate("/login");
-    } catch (error) {
-      console.log("error signing out: ", error);
-    }
+      dispatch(setUserSignOut())
+    });
   };
 
   return (
