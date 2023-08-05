@@ -4,7 +4,7 @@ import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import Navbar from "./components/navbar/navbar";
 import PrivateRoutes from "./util/privateRoutes";
-import ConfirmSignUp from "./pages/signup/confirmSignUp/ConfirmSignUp";
+import ConfirmSignUp from "./pages/confirmSignUp/ConfirmSignUp";
 import { useState } from "react";
 
 function App() {

@@ -1,15 +1,16 @@
 import { useState } from "react";
 import "./styles.scss";
 import { Card, TextField, Alert, Button, Typography } from "@mui/material";
-import { confirmSignUp, resendConfirmationCode } from "../../../util/auth";
+import { confirmSignUp, resendConfirmationCode } from "../../util/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserSignIn } from "../../../redux/auth/authSlice";
+import { setUserSignIn } from "../../redux/auth/authSlice";
 
 const ConfirmSignUp = (props) => {
   const [code, setCode] = useState("");
   const [loginError, setLoginError] = useState(false);
   const [resendCodeMsg, setResendCodeMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   // const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,24 +22,36 @@ const ConfirmSignUp = (props) => {
   };
 
   const handleResendCode = () => {
-    resendConfirmationCode(user.username).then((res) => setResendCodeMsg(true));
+    resendConfirmationCode(user.username).then((res) => {
+      if (typeof res !== "string") {
+        setResendCodeMsg(true);
+      }
+      else{
+        setErrorMsg(res);
+        setLoginError(true);
+      }
+    });
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    let isValid = true;
+    // let isValid = true;
     setCode("");
     // Simulate login process
     // You can perform API calls or other authentication logic here
     confirmSignUp(user.username, code).then((res) => {
-      isValid = res;
-      dispatch(setUserSignIn(res));
+      if (typeof res !== "string") {
+        dispatch(setUserSignIn(res));
+        navigate("/");
+      } else {
+        setErrorMsg(res);
+        setLoginError(true);
+      }
     });
-    if (!isValid) {
-      setLoginError(true);
-      return;
-    }
-    navigate("/");
+    // if (!isValid) {
+    //   setLoginError(true);
+    //   return;
+    // }
   };
 
   return (
@@ -47,11 +60,7 @@ const ConfirmSignUp = (props) => {
         <Typography sx={{ mb: 2 }} component="h1" variant="h5">
           Please enter the verification code from your email
         </Typography>
-        {loginError && (
-          <Alert severity="error">
-            Failed to login. Please check your code or resend new one
-          </Alert>
-        )}
+        {loginError && <Alert severity="error">{errorMsg}</Alert>}
         {resendCodeMsg && (
           <Alert severity="success">
             A new verification code has sent to you, please check you email

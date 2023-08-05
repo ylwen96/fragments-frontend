@@ -76,17 +76,17 @@ async function getUser() {
 
 async function signIn(username, password) {
   try {
-    const user = await Auth.signIn(username, password);
-    return user
+    const res = await Auth.signIn(username, password);
+    console.log(res)
+    return res
   } catch (error) {
-    console.log('error signing in', error);
-    return null
+    return ('error signing in', error)
   }
 }
 
 async function signUp(username, email, password) {
   try {
-    const { user } = await Auth.signUp({
+    const res = await Auth.signUp({
       username,
       password,
       attributes: {
@@ -96,11 +96,10 @@ async function signUp(username, email, password) {
         enabled: true,
       }
     });
-    console.log("your user has sign up successfully", user);
-    return user
+    console.log(res)
+    return res
   } catch (error) {
-    console.log('error signing up:', error);
-    return null
+    return ('error signing up:', error)
   }
 }
 
@@ -114,22 +113,22 @@ async function signOut() {
 
 async function resendConfirmationCode(username) {
   try {
-    await Auth.resendSignUp(username);
-    console.log('code resent successfully');
-    return true
+    const res = await Auth.resendSignUp(username);
+    console.log(res)
+    return res
   } catch (err) {
-    console.log('error resending code: ', err);
-    return false
+    return ('error resending code: ', err)
   }
 }
 
 async function confirmSignUp(username, code) {
   try {
-    await Auth.confirmSignUp(username, code);
-    return true
+    const res = await Auth.confirmSignUp(username, code);
+    console.log(res)
+  
+    return res
   } catch (error) {
-    console.log('error confirming sign up', error);
-    return false
+    return ('error confirming sign up', error)
   }
 }
 

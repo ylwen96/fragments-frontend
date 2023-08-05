@@ -18,18 +18,19 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
-    setPasswordError(false);
-    setLoginError(false);
+    // setPasswordError(false);
+    // setLoginError(false);
   };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setPasswordError(false);
-    setLoginError(false);
+    // setPasswordError(false);
+    // setLoginError(false);
   };
 
   const handleFormSubmit = async (event) => {
@@ -44,23 +45,20 @@ const Login = () => {
     setPassword("");
 
     // Simple form validation
-    let isValid = true;
     if (!validatePassword(password)) {
       setPasswordError(true);
-      isValid = false;
-    }
-    if (!isValid) {
-      setLoginError(true);
     }
 
     // Simulate login process
     // You can perform API calls or other authentication logic here
     signIn(requestBody.username, requestBody.password).then((res) => {
-      if (res != null) {
-        isValid = true;
+      if (typeof res !== "string") {
         dispatch(setUserSignIn(res));
+        navigate("/");
+      } else {
+        setErrorMsg(res);
+        setLoginError(true);
       }
-      navigate("/");
     });
   };
 
@@ -81,7 +79,7 @@ const Login = () => {
         )}
         {loginError && (
           <Alert severity="error">
-            Failed to login. Please check your credentials.
+            {errorMsg}
           </Alert>
         )}
         <form onSubmit={handleFormSubmit} className="login-form">

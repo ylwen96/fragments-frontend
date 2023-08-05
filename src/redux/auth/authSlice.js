@@ -1,10 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getUser } from '../../util/auth'
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    isUserSignedIn: false
+    isUserSignedIn: () => {
+      const { username, idToken, accessToken } = getUser();
+      return !!idToken && !!username && !!accessToken;
+    }
   },
   reducers: {
     setUserSignIn: (state, action) => {

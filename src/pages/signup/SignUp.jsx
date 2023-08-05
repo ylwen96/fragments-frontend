@@ -20,34 +20,35 @@ const SignUp = (props) => {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmedPasswordError, setConfirmedPasswordError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
-  const {onFetchUserFromSignUp} = props
+  const [errorMsg, setErrorMsg] = useState("");
+  const { onFetchUserFromSignUp } = props;
 
   const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
-    setEmailError(false);
-    setPasswordError(false);
-    setSignUpError(false);
+    // setEmailError(false);
+    // setPasswordError(false);
+    // setSignUpError(false);
   };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setEmailError(false);
-    setPasswordError(false);
-    setSignUpError(false);
+    // setEmailError(false);
+    // setPasswordError(false);
+    // setSignUpError(false);
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setPasswordError(false);
-    setSignUpError(false);
+    // setPasswordError(false);
+    // setSignUpError(false);
   };
 
   const handleConfirmedPasswordChange = (event) => {
     setConfirmedPassword(event.target.value);
-    setConfirmedPasswordError(false);
-    setSignUpError(false);
+    // setConfirmedPasswordError(false);
+    // setSignUpError(false);
   };
 
   const handleFormSubmit = (event) => {
@@ -60,34 +61,37 @@ const SignUp = (props) => {
     };
 
     // Simple form validation
-    let isValid = true;
+    // let isValid = true;
     if (!validateEmail(email)) {
       setEmailError(true);
-      isValid = false;
+      // isValid = false;
     }
     if (!validatePassword(password)) {
       setPasswordError(true);
-      isValid = false;
+      // isValid = false;
     }
     if (!validateConfirmedPassword(confirmedPassword)) {
       setConfirmedPasswordError(true);
-      isValid = false;
+      // isValid = false;
     }
 
-    if (!isValid) {
-      setSignUpError(true);
-      return;
-    }
+    // if (!isValid) {
+    //   setSignUpError(true);
+    //   return;
+    // }
 
     // Clear form fields after successful submission
     // Simulate sign-up process
     // You can perform API calls or other authentication logic here
     signUp(requestBody.username, requestBody.email, requestBody.password).then(
       (res) => {
-        if (res != null) {
-          isValid = true;
-          onFetchUserFromSignUp(res)
+        if (typeof res !== "string") {
+          // isValid = true;
+          onFetchUserFromSignUp(res);
           navigate("/signup/confirm-signup");
+        } else {
+          setErrorMsg(res);
+          setSignUpError(true);
         }
       }
     );
@@ -126,11 +130,7 @@ const SignUp = (props) => {
             password.
           </Alert>
         )}
-        {signUpError && (
-          <Alert severity="error">
-            Failed to sign up. Please check your credentials.
-          </Alert>
-        )}
+        {signUpError && <Alert severity="error">{errorMsg}</Alert>}
 
         <form onSubmit={handleFormSubmit} className="signup-form">
           <TextField
