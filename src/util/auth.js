@@ -77,7 +77,6 @@ async function getUser() {
 async function signIn(usernameInput, password) {
   try {
     const user = await Auth.signIn(usernameInput, password);
-    console.log(user)
     const username = user.username;
     const idToken = user.signInUserSession.idToken.jwtToken;
     const accessToken = user.signInUserSession.accessToken.jwtToken;
@@ -93,7 +92,7 @@ async function signIn(usernameInput, password) {
       },
     };
   } catch (error) {
-    console.log(error)
+    console.log("user sign in error", error)
   }
 }
 
@@ -111,7 +110,7 @@ async function signUp(username, email, password) {
     });
     return res.user.username
   } catch (error) {
-    console.log(error)
+    console.log("user sign up error", error)
   }
 }
 
@@ -123,29 +122,15 @@ async function signOut() {
   }
 }
 
-async function resendConfirmationCode(username) {
-  try {
-    await Auth.resendSignUp(username);
-    console.log("11111")
-  } catch (error) {
-    console.log('error resending code: ', error);
-  }
-}
-
-async function confirmSignUp(username, code) {
-  try {
-    await Auth.confirmSignUp(username, code);
-    console.log("222")
-    return true
-  } catch (error) {
-    console.log('error confirming sign up', error);
-    return false
-  }
-}
-
 function isSignedIn() {
-  const { username, idToken, accessToken } = getUser();
-  return !!accessToken && !!username && !!idToken;
+  let isSigned = false
+  getUser().then((res) => {
+    console.log(res)
+    if (res !== null) {
+      isSigned = true
+    }
+  });
+  return isSigned;
 }
 
-export { Auth, getUser, signIn, signUp, signOut, confirmSignUp, resendConfirmationCode, isSignedIn };
+export { Auth, getUser, signIn, signUp, signOut, isSignedIn };

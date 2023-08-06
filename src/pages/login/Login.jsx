@@ -36,16 +36,14 @@ const Login = () => {
       password: password,
     };
 
-    setUsername("");
-    setPassword("");
-
-    // Simple form validation
     if (!validatePassword(password)) {
       setPasswordError(true);
     }
 
     signIn(requestBody.username, requestBody.password).then((res) => {
       if (typeof res !== "undefined") {
+        setUsername("");
+        setPassword("");
         dispatch(setUserSignIn(res));
         navigate("/");
       } else {
