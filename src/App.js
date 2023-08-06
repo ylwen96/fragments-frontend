@@ -4,14 +4,14 @@ import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import Navbar from "./components/navbar/navbar";
 import PrivateRoutes from "./util/privateRoutes";
-import ConfirmSignUp from "./pages/confirmSignUp/ConfirmSignUp";
-import { useState } from "react";
+// import ConfirmSignUp from "./pages/confirmSignUp/ConfirmSignUp";
+// import { useState } from "react";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const fetchUserFromSignUp = (user)=>{
-    setUser(user)
-  }
+  // const [username, setUsername] = useState(null);
+  // const fetchUserFromSignUp = (name)=>{
+  //   setUsername(name)
+  // }
 
   return (
     <>
@@ -21,10 +21,11 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" >
+        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/signup" >
           <Route index element={<SignUp onFetchUserFromSignUp = {fetchUserFromSignUp} />} />
-          <Route path="confirm-signup" element={<ConfirmSignUp props={user} />} />
-        </Route>
+          <Route path="confirm-signup" element={<ConfirmSignUp props={username} />} />
+        </Route> */}
       </Routes>
     </>)
 }

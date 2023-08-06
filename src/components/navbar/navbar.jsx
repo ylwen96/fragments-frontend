@@ -11,12 +11,12 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../../util/auth";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserSignOut } from "../../redux/auth/authSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
   const dispatch = useDispatch()
 
   const handleLogOff = () => {
@@ -37,7 +37,7 @@ const Navbar = () => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              disabled={!user}
+              // disabled={!user}
               href="/"
             >
               <HomeIcon />

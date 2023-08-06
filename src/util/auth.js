@@ -74,13 +74,26 @@ async function getUser() {
   }
 }
 
-async function signIn(username, password) {
+async function signIn(usernameInput, password) {
   try {
-    const res = await Auth.signIn(username, password);
-    console.log(res)
-    return res
+    const user = await Auth.signIn(usernameInput, password);
+    console.log(user)
+    const username = user.username;
+    const idToken = user.signInUserSession.idToken.jwtToken;
+    const accessToken = user.signInUserSession.accessToken.jwtToken;
+    return {
+      username,
+      idToken,
+      accessToken,
+      // Include a simple method to generate headers with our Authorization info
+      authorizationHeaders: (type = 'application/json') => {
+        const headers = { 'Content-Type': type };
+        headers['Authorization'] = `Bearer ${idToken}`;
+        return headers;
+      },
+    };
   } catch (error) {
-    return ('error signing in', error)
+    console.log(error)
   }
 }
 
@@ -96,10 +109,9 @@ async function signUp(username, email, password) {
         enabled: true,
       }
     });
-    console.log(res)
-    return res
+    return res.user.username
   } catch (error) {
-    return ('error signing up:', error)
+    console.log(error)
   }
 }
 
@@ -113,23 +125,27 @@ async function signOut() {
 
 async function resendConfirmationCode(username) {
   try {
-    const res = await Auth.resendSignUp(username);
-    console.log(res)
-    return res
-  } catch (err) {
-    return ('error resending code: ', err)
+    await Auth.resendSignUp(username);
+    console.log("11111")
+  } catch (error) {
+    console.log('error resending code: ', error);
   }
 }
 
 async function confirmSignUp(username, code) {
   try {
-    const res = await Auth.confirmSignUp(username, code);
-    console.log(res)
-  
-    return res
+    await Auth.confirmSignUp(username, code);
+    console.log("222")
+    return true
   } catch (error) {
-    return ('error confirming sign up', error)
+    console.log('error confirming sign up', error);
+    return false
   }
 }
 
-export { Auth, getUser, signIn, signUp, signOut, confirmSignUp, resendConfirmationCode };
+function isSignedIn() {
+  const { username, idToken, accessToken } = getUser();
+  return !!accessToken && !!username && !!idToken;
+}
+
+export { Auth, getUser, signIn, signUp, signOut, confirmSignUp, resendConfirmationCode, isSignedIn };

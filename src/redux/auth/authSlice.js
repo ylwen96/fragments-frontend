@@ -1,22 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUser } from '../../util/auth'
+import { isSignedIn } from '../../util/auth'
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    isUserSignedIn: () => {
-      const { username, idToken, accessToken } = getUser();
-      return !!idToken && !!username && !!accessToken;
-    }
+    isUserSignedIn: isSignedIn()
   },
   reducers: {
     setUserSignIn: (state, action) => {
       const { user } = action.payload
+      console.log("reducer",user)
       state.user = user
-      if (user != null) {
-        state.isUserSignedIn = true
-      }
+      state.isUserSignedIn = isSignedIn()
     },
     setUserSignOut: (state, action) => {
       state.user = null
