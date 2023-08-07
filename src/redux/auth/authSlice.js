@@ -12,8 +12,9 @@ export const authSlice = createSlice({
   },
   reducers: {
     setUserSignIn: (state, action) => {
-      const { idToken, accessToken, username } = action.payload;
+      const { idToken, accessToken, username, authorizationHeaders } = action.payload;
       createSignInSession(username, idToken, accessToken, defaultStorageExpirationDate);
+      state.user = { idToken, accessToken, username, authorizationHeaders }
       state.isUserSignedIn = true;
     },
     setUserSignOut: (state, action) => {
