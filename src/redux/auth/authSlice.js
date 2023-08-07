@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { isSignedIn } from '../../util/auth'
+import { isSignedIn } from '../../util/signInHelper'
+import { defaultStorageExpirationDate } from '../../util/storageHelper';
+import { createSignInSession } from '../../util/signInHelper';
+import { cleanupOnSignOut } from '../../util/signInHelper';
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -9,12 +12,12 @@ export const authSlice = createSlice({
   },
   reducers: {
     setUserSignIn: (state, action) => {
-      const  user  = action.payload
-      state.user = user
-      state.isUserSignedIn = true
+      const { idToken, accessToken, username } = action.payload;
+      createSignInSession(username, idToken, accessToken, defaultStorageExpirationDate);
+      state.isUserSignedIn = true;
     },
     setUserSignOut: (state, action) => {
-      state.user = null
+      cleanupOnSignOut();
       state.isUserSignedIn = false
     }
   }

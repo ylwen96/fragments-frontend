@@ -122,15 +122,4 @@ async function signOut() {
   }
 }
 
-function isSignedIn() {
-  let isSigned = false
-  getUser().then((res) => {
-    console.log(res)
-    if (res !== null) {
-      isSigned = true
-    }
-  });
-  return isSigned;
-}
-
-export { Auth, getUser, signIn, signUp, signOut, isSignedIn };
+export { Auth, getUser, signIn, signUp, signOut };
