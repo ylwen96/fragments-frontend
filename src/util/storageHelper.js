@@ -5,13 +5,13 @@ export const StorageTypes = {
     ID_TOKEN_STORAGE: 'fragments_ID_TOKEN_STORAGE',
     USERNAME_STORAGE: 'fragments_USERNAME_STORAGE',
     ACCESS_TOKEN_STORAGE: 'fragments_ACCESS_TOKEN_STORAGE',
-    AUTH_HEADER_STORAGE: 'fragments_AUTH_HEADER_STORAGE',
 }
 
 export const readStorage = (name) => {
     if (!name) return '';
     if (typeof localStorage !== 'undefined') {
         let val = localStorage.getItem(name)?.split('; expires=');
+
         if (!val || val.length !== 2 || Date.parse(val[1]) <= Date.now()) return '';
         return val[0];
     } else {

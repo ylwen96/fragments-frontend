@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { isSignedIn,getSessionValues } from '../../util/signInHelper'
+import { isSignedIn, getSessionValues } from '../../util/signInHelper'
 import { defaultStorageExpirationDate } from '../../util/storageHelper';
 import { createSignInSession, cleanupOnSignOut } from '../../util/signInHelper';
 
@@ -11,9 +11,9 @@ export const authSlice = createSlice({
   },
   reducers: {
     setUserSignIn: (state, action) => {
-      const { idToken, accessToken, username, authorizationHeaders } = action.payload;
-      createSignInSession(username, idToken, accessToken,authorizationHeaders, defaultStorageExpirationDate);
-      state.user = { idToken, accessToken, username, authorizationHeaders }
+      const { idToken, accessToken, username } = action.payload;
+      createSignInSession(username, idToken, accessToken, defaultStorageExpirationDate);
+      state.user = { idToken, accessToken, username }
       state.isUserSignedIn = true;
     },
     setUserSignOut: (state, action) => {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import { alpha } from "@mui/material/styles";
@@ -216,6 +217,13 @@ export default function TableComponent() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const navigate = useNavigate();
+
+  const handleFragmentClick = (event) => {
+    event.preventDefault();
+    navigate("/fragments/:id");
+  };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -329,7 +337,9 @@ export default function TableComponent() {
                     <TableCell align="right">{row.calories}</TableCell>
                     <TableCell align="right">{row.fat}</TableCell>
                     <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right"><Button>View Detail</Button></TableCell>
+                    <TableCell align="right">
+                      <Button onClick={handleFragmentClick}>View Detail</Button>
+                    </TableCell>
                   </TableRow>
                 );
               })}

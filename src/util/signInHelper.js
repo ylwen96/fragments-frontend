@@ -7,23 +7,20 @@ const getSessionValues = () => {
             username: "",
             idToken: "",
             accessToken: "",
-            authorizationHeaders: {}
         };
     } else {
         return {
             username: readStorage(StorageTypes.USERNAME_STORAGE) || '',
             idToken: readStorage(StorageTypes.ID_TOKEN_STORAGE) || '',
             accessToken: readStorage(StorageTypes.ACCESS_TOKEN_STORAGE) || '',
-            authorizationHeaders: readStorage(StorageTypes.ACCESS_TOKEN_STORAGE) || {},
         };
     }
 };
 
-const createSignInSession = (username, idToken, accessToken, authorizationHeaders, days) => {
+const createSignInSession = (username, idToken, accessToken, days) => {
     createStorage(StorageTypes.USERNAME_STORAGE, username, days);
     createStorage(StorageTypes.ID_TOKEN_STORAGE, idToken, days);
     createStorage(StorageTypes.ACCESS_TOKEN_STORAGE, accessToken, days);
-    createStorage(StorageTypes.AUTH_HEADER_STORAGE, authorizationHeaders, days);
 };
 
 const isSignedIn = () => {
@@ -35,7 +32,6 @@ const cleanupOnSignOut = () => {
     eraseStorage(StorageTypes.USERNAME_STORAGE);
     eraseStorage(StorageTypes.ID_TOKEN_STORAGE);
     eraseStorage(StorageTypes.ACCESS_TOKEN_STORAGE);
-    eraseStorage(StorageTypes.AUTH_HEADER_STORAGE);
 };
 
 export { getSessionValues, createSignInSession, isSignedIn, cleanupOnSignOut }

@@ -14,7 +14,10 @@ export async function getUserFragments(user) {
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       // Generate headers with the proper Authorization bearer token to pass
-      headers: user.authorizationHeaders(),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.idToken}`
+      },
     });
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
@@ -32,7 +35,10 @@ export async function getUserFragmentsExpanded(user) {
   try {
     const res = await fetch(`${apiUrl}/v1/fragments?expand=1`, {
       // Generate headers with the proper Authorization bearer token to pass
-      headers: user.authorizationHeaders(),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.idToken}`
+      },
     });
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
