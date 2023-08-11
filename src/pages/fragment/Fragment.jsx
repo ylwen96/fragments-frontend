@@ -26,8 +26,17 @@ const Fragment = () => {
             species, ranging across all continents except Antarctica
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button size="small">Edit</Button>
+        <CardActions sx={{ p: 2 }}>
+          <Button variant="contained" size="small">
+            Edit
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "red" }}
+            size="small"
+          >
+            Delete
+          </Button>
         </CardActions>
       </Card>
     </div>

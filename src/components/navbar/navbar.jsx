@@ -11,18 +11,18 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../../util/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserSignOut } from "../../redux/auth/authSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  // const user = useSelector((state) => state.user);
-  const dispatch = useDispatch()
+  const isUserSignedIn = useSelector((state) => state.auth.isUserSignedIn);
+  const dispatch = useDispatch();
 
   const handleLogOff = () => {
     signOut().then(() => {
       navigate("/login");
-      dispatch(setUserSignOut())
+      dispatch(setUserSignOut());
     });
   };
 
@@ -37,7 +37,7 @@ const Navbar = () => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              // disabled={!user}
+              disabled={!isUserSignedIn}
               href="/"
             >
               <HomeIcon />
@@ -45,9 +45,11 @@ const Navbar = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               My Fragments
             </Typography>
-            <Button color="inherit" onClick={handleLogOff}>
-              Log off
-            </Button>
+            {isUserSignedIn && (
+              <Button variant="outlined" color="inherit" onClick={handleLogOff}>
+                Log off
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </Box>
