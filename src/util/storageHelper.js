@@ -5,6 +5,7 @@ export const StorageTypes = {
     ID_TOKEN_STORAGE: 'fragments_ID_TOKEN_STORAGE',
     USERNAME_STORAGE: 'fragments_USERNAME_STORAGE',
     ACCESS_TOKEN_STORAGE: 'fragments_ACCESS_TOKEN_STORAGE',
+    AUTH_HEADER_STORAGE: 'fragments_AUTH_HEADER_STORAGE',
 }
 
 export const readStorage = (name) => {

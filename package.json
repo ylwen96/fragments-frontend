@@ -10,6 +10,7 @@
     "@mui/icons-material": "latest",
     "@mui/material": "^5.14.3",
     "@mui/styled-engine-sc": "^5.12.0",
+    "@mui/x-data-grid": "^6.11.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
