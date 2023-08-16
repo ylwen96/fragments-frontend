@@ -149,7 +149,10 @@ export async function convertUserFragments(user, id, type) {
     }
     const res = await fetch(`${apiUrl}/v1/fragments?${id}${type_ext}`, {
       // Generate headers with the proper Authorization bearer token to pass
-      headers: user.authorizationHeaders(),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.idToken}`
+      },
     });
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);

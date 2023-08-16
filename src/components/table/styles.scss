@@ -1,0 +1,13 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  >:first-child{
+    width: 100%;
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+  }
+}

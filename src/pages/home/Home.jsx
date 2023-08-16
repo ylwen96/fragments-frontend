@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./styles.scss";
 import { useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import TableComponent from "../../components/table/Table";
 
 const Home = () => {
-  const [data, setData] = useState(null);
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
