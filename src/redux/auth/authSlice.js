@@ -12,6 +12,7 @@ export const authSlice = createSlice({
   reducers: {
     setUserSignIn: (state, action) => {
       const { idToken, accessToken, username } = action.payload;
+      console.log(idToken)
       createSignInSession(username, idToken, accessToken, defaultStorageExpirationDate);
       state.user = { idToken, accessToken, username }
       state.isUserSignedIn = true;

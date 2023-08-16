@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useCallback } from "react";
 import "./styles.scss";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,11 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { Button, TextField } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { useDropzone } from "react-dropzone";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -37,22 +37,18 @@ const rows = [
 ];
 
 export default function TableComponent() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [open, setOpen] = React.useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleViewClick = (event) => {
     navigate("/fragments/:id");
   };
 
   const handleAddClick = (event) => {
-    // navigate("/fragments/:id");
-    setOpen(true);
-  };
-
-  const handleFormSubmit = (event) => {
     // navigate("/fragments/:id");
     setOpen(true);
   };
@@ -64,6 +60,37 @@ export default function TableComponent() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const onDrop = useCallback((acceptedFiles) => {
+    setSelectedFile(acceptedFiles[0]);
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: "image/*", // Specify the accepted file types
+  });
+
+  const handleUpload = () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      // You can make an API request to send the formData to the server here
+      // For example, using the fetch() function or a library like Axios
+      // Replace 'your-upload-api-url' with the actual API endpoint
+      fetch("your-upload-api-url", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response from the server if needed
+        })
+        .catch((error) => {
+          // Handle errors
+        });
+    }
   };
 
   return (
@@ -130,33 +157,45 @@ export default function TableComponent() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 832,
-            height: 559,
+            width: 532,
+            height: 430,
             bgcolor: "background.paper",
             boxShadow: 24,
-            padding: "44px 51px",
+            // padding: "44px 51px",
           }}
+          className="form-container"
         >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography
+            sx={{ mt: 2, mb: 2 }}
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+          >
             Add Fragment
           </Typography>
-          <form onSubmit={handleFormSubmit} className="form-container">
-            <div>
-              <span>Name:</span>&nbsp;
-              <TextField
-                fullWidth
-                // value={inputValue}
-                // onChange={handleInputChange}
-              />
+          <Container>
+            <div
+              {...getRootProps()}
+              style={{
+                border: "2px dashed #cccccc",
+                padding: "100px",
+                textAlign: "center",
+              }}
+            >
+              <input {...getInputProps()} />
+              <p>Drag and drop a file here, or click to select a file</p>
             </div>
-            <div>drop file</div>
-            <div>
-              <Button type="submit" variant="contained">
-                Create
-              </Button>
-              <Button variant="contained">Cancel</Button>
-            </div>
-          </form>
+            {selectedFile && <Typography>{selectedFile.name}</Typography>}
+          </Container>
+          <div>
+          <Button size="small" variant="contained" onClick={handleUpload}>
+            Create
+          </Button>
+          <Button variant="contained" size="small" onClick={handleClose}>
+            Cancel
+          </Button>
+          </div>
+
         </Box>
       </Modal>
     </TableContainer>
