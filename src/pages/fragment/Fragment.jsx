@@ -8,12 +8,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 const Fragment = () => {
-  const [HasImage, setHasImage] = useState(false);
   return (
     <div className="fragment-container">
-      <Card sx={{ maxWidth: 1300 }}>
+      <Card sx={{ maxWidth: 600 }}>
         <CardMedia
-          sx={{ height: 500 }}
+          sx={{ height: 300 }}
           image="/static/images/cards/contemplative-reptile.jpg"
           title="green iguana"
         />

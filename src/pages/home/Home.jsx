@@ -6,6 +6,7 @@ import TableComponent from "../../components/table/Table";
 
 const Home = () => {
   const user = useSelector((state) => state.auth.user);
+  console.log(user.idToken)
 
   useEffect(() => {
     
@@ -14,7 +15,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <Typography variant="h5" component="div" className="home-title">
-        Welcome! {user && user.username}
+        Welcome on board, you are signed in as "{user && user.username}"!
       </Typography>
       <div className="table-container">
         <TableComponent />
