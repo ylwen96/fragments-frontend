@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-export const defaultStorageExpirationDate = 1 / 3;
+export const defaultStorageExpirationDate = 1 / 24;
 
 export const StorageTypes = {
     ID_TOKEN_STORAGE: 'fragments_ID_TOKEN_STORAGE',
