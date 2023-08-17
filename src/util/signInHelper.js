@@ -1,3 +1,4 @@
+import { getUser } from './auth';
 import { readStorage, StorageTypes, createStorage, eraseStorage } from './storageHelper';
 
 const getSessionValues = () => {
@@ -24,8 +25,11 @@ const createSignInSession = (username, idToken, accessToken, days) => {
 };
 
 const isSignedIn = () => {
-    const { accessToken, username, idToken } = getSessionValues();
-    return !!accessToken && !!username && !!idToken;
+    let user = null
+    getUser().then((res) => {
+       user = res
+    })
+    return !user
 };
 
 const cleanupOnSignOut = () => {
