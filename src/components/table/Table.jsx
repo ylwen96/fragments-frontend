@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import "./styles.scss";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useDropzone } from "react-dropzone";
+import { getUserFragmentsExpanded } from "../../util/api";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -36,13 +37,24 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-export default function TableComponent() {
+export default function TableComponent(props) {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
+  const { user } = props;
+
+  useEffect(() => {
+    getUserFragmentsExpanded(user).then((res) => {
+      if (typeof res != "undefined") {
+        setData(res.fragments);
+      }
+      console.log(data)
+    });
+  }, []);
 
   const handleViewClick = (event) => {
     navigate("/fragments/:id");
@@ -188,14 +200,13 @@ export default function TableComponent() {
             {selectedFile && <Typography>{selectedFile.name}</Typography>}
           </Container>
           <div>
-          <Button size="small" variant="contained" onClick={handleUpload}>
-            Create
-          </Button>
-          <Button variant="contained" size="small" onClick={handleClose}>
-            Cancel
-          </Button>
+            <Button size="small" variant="contained" onClick={handleUpload}>
+              Create
+            </Button>
+            <Button variant="contained" size="small" onClick={handleClose}>
+              Cancel
+            </Button>
           </div>
-
         </Box>
       </Modal>
     </TableContainer>

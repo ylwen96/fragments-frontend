@@ -1,7 +1,7 @@
 // src/api.js
 
 // fragments microservice API, defaults to localhost:8080
-const apiUrl = process.env.API_URL || 'http://localhost:8080';
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
 /**
  * Given an authenticated user, request all fragments for this user from the
@@ -24,6 +24,7 @@ export async function getUserFragments(user) {
     }
     const data = await res.json();
     console.log('Got user fragments data', { data });
+    return data
   } catch (err) {
     console.error('Unable to call GET /v1/fragment', { err });
   }

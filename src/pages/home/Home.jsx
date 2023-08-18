@@ -18,7 +18,7 @@ const Home = () => {
         Welcome on board, you are signed in as "{user && user.username}"!
       </Typography>
       <div className="table-container">
-        <TableComponent />
+        <TableComponent user={user} />
       </div>
     </div>
   );
