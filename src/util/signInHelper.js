@@ -25,12 +25,14 @@ const createSignInSession = (username, idToken, accessToken, days) => {
 };
 
 const isSignedIn = () => {
-    let user = null
-    getUser().then((res) => {
-       user = res
-    })
-    return !user
+    return getUser().then((user) => {
+        return user.idToken === readStorage(StorageTypes.ID_TOKEN_STORAGE)
+    }).catch((error) => {
+        console.error("Error:", error);
+        return false;
+    });
 };
+
 
 const cleanupOnSignOut = () => {
     eraseStorage(StorageTypes.USERNAME_STORAGE);
