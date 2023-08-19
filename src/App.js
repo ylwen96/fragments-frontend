@@ -6,8 +6,9 @@ import Navbar from "./components/navbar/navbar";
 import PrivateRoutes from "./util/privateRoutes";
 import Fragment from "./pages/fragment/Fragment";
 
-function App() {
 
+
+function App() {
   return (
     <>
       <Navbar />

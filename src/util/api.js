@@ -32,7 +32,6 @@ export async function getUserFragments(user) {
 
 // GET expanded fragments
 export async function getUserFragmentsExpanded(user) {
-  console.log('Requesting user fragments expanded data...');
   try {
     const res = await fetch(`${apiUrl}/v1/fragments?expand=1`, {
       // Generate headers with the proper Authorization bearer token to pass
