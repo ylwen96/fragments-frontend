@@ -8,7 +8,7 @@ const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080';
  * fragments microservice (currently only running locally). We expect a user
  * to have an `idToken` attached, so we can send that along with the request.
  */
-// GET fragment
+// GET fragments
 export async function getUserFragments(user) {
   console.log('Requesting user fragments data...');
   try {
@@ -23,7 +23,7 @@ export async function getUserFragments(user) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
     const data = await res.json();
-    console.log('Got user fragments data', { data });
+    // console.log('Got user fragments data', { data });
     return data
   } catch (err) {
     console.error('Unable to call GET /v1/fragment', { err });
@@ -44,10 +44,54 @@ export async function getUserFragmentsExpanded(user) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
     const data = await res.json();
-    console.log('Got user fragments expanded data', { data });
+    // console.log('Got user fragments expanded data', { data });
     return data
   } catch (err) {
     console.error('Unable to call GET /v1/fragments', { err });
+  }
+}
+
+// GET fragment
+export async function getFragmentById(user, id) {
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+      // Generate headers with the proper Authorization bearer token to pass
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.idToken}`
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    // console.log('Got user fragments expanded data', { data });
+    return data
+  } catch (err) {
+    console.error('Unable to call GET /v1/fragments', { err });
+    return null
+  }
+}
+
+// GET fragment with Info
+export async function getFragmentInfoById(user, id) {
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}/info`, {
+      // Generate headers with the proper Authorization bearer token to pass
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.idToken}`
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    // console.log('Got user fragments expanded data', { data });
+    return data
+  } catch (err) {
+    console.error('Unable to call GET /v1/fragments', { err });
+    return null
   }
 }
 
@@ -87,8 +131,6 @@ export async function putUserFragments(user, id, content) {
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    // const data = await res.json();
-    console.log('Update user fragments data', { id });
   } catch (err) {
     console.error('Unable to call PUT /v1/fragments', { err });
   }
@@ -107,10 +149,10 @@ export async function deleteUserFragments(user, id) {
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    // const data = await res.json();
-    console.log('Delete user fragments data', { id });
+    return true
   } catch (err) {
     console.error('Unable to call DELETE /v1/fragments', { err });
+    return false
   }
 }
 
@@ -157,8 +199,6 @@ export async function convertUserFragments(user, id, type) {
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    const data = await res.json();
-    console.log('Convert user fragments data', { data });
   } catch (err) {
     console.error('Unable to call GET to convert /v1/fragment', { err });
   }

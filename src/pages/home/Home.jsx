@@ -16,9 +16,9 @@ const Home = () => {
   const fetchUser = useCallback(async () => {
     try {
       const res = await getUser();
-      return res
+      return res;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }, []);
 
@@ -27,8 +27,8 @@ const Home = () => {
       if (res.idToken !== readStorage(StorageTypes.ID_TOKEN_STORAGE)) {
         dispatch(setUserSignOut());
       }
-    })
-  }, [fetchUser]);
+    }); // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="home-container">

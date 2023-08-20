@@ -14,8 +14,9 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useDropzone } from "react-dropzone";
 import { getUserFragmentsExpanded } from "../../util/api";
+import { useSelector } from "react-redux";
 
-export default function TableComponent(props) {
+export default function TableComponent() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -23,30 +24,50 @@ export default function TableComponent(props) {
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
-  const { user } = props;
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     getUserFragmentsExpanded(user).then((res) => {
       if (typeof res != "undefined") {
-        setData(res.fragments);
+        let arr = [];
+        for (let i = 0; i < res.fragments.length; i++) {
+          let obj = { index: i + 1, ...res.fragments[i] };
+          arr.push(obj);
+        }
+        setData(arr);
+      } else {
+        setData([
+          {
+            created: "",
+            id: "",
+            index: 0,
+            ownerId: "",
+            size: 0,
+            type: "",
+            updated: "",
+          },
+        ]);
       }
     });
-  }, []);
+  }, [user]);
 
-  const handleViewClick = (event) => {
-    navigate("/fragments/:id");
+  const handleViewClick = (id) => {
+    navigate(`/fragments/${id}`);
   };
 
   const handleAddClick = (event) => {
-    // navigate("/fragments/:id");
+    event.preventDefault();
+    navigate("/fragments/:id");
     setOpen(true);
   };
 
   const handleChangePage = (event, newPage) => {
+    event.preventDefault();
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
+    event.preventDefault();
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -87,7 +108,8 @@ export default function TableComponent(props) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
+            <TableCell>Index</TableCell>
+            <TableCell align="right">ID</TableCell>
             <TableCell align="right">Created At</TableCell>
             <TableCell align="right">Updated At</TableCell>
             <TableCell align="right">Size</TableCell>
@@ -104,18 +126,19 @@ export default function TableComponent(props) {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => (
               <TableRow
-                key={row.name}
+                key={row.index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.id}
+                  {row.index}
                 </TableCell>
+                <TableCell align="right">{row.id}</TableCell>
                 <TableCell align="right">{row.created}</TableCell>
                 <TableCell align="right">{row.updated}</TableCell>
                 <TableCell align="right">{row.size}</TableCell>
                 <TableCell align="right">{row.type}</TableCell>
                 <TableCell align="right">
-                  <Button variant="contained" onClick={handleViewClick}>
+                  <Button variant="contained" onClick={()=>{handleViewClick(row.id)}}>
                     View
                   </Button>
                 </TableCell>

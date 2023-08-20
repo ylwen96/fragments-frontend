@@ -14,8 +14,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/fragments/:id" element={<Fragment />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/fragments/:id" element={<Fragment />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
