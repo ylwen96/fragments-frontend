@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useDropzone } from "react-dropzone";
-import { getUserFragmentsExpanded } from "../../util/api";
+import { getUserFragmentsExpanded, postUserFragments } from "../../util/api";
 import { useSelector } from "react-redux";
 
 export default function TableComponent() {
@@ -57,7 +57,6 @@ export default function TableComponent() {
 
   const handleAddClick = (event) => {
     event.preventDefault();
-    navigate("/fragments/:id");
     setOpen(true);
   };
 
@@ -78,28 +77,46 @@ export default function TableComponent() {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: "image/*", // Specify the accepted file types
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png"],
+      "text/*": [".txt", ".md", ".html"],
+      "application/json": [".json"],
+    },
   });
 
-  const handleUpload = () => {
+  const fileTypeExtConvert = (fileName) => {
+    const extensionToMIME = {
+      TXT: "text/plain",
+      MD: "text/markdown",
+      HTML: "text/html",
+      JSON: "application/json",
+      PNG: "image/png",
+      JPG: "image/jpeg",
+      WEBP: "image/webp",
+      GIF: "image/gif",
+    };
+
+    return extensionToMIME[fileName] || null;
+  };
+
+  const handleUpload = async () => {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      // You can make an API request to send the formData to the server here
-      // For example, using the fetch() function or a library like Axios
-      // Replace 'your-upload-api-url' with the actual API endpoint
-      fetch("your-upload-api-url", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response from the server if needed
-        })
-        .catch((error) => {
-          // Handle errors
-        });
+      const fileName = selectedFile.name;
+      const fileExtension = fileName
+        .substring(fileName.lastIndexOf(".") + 1)
+        .toUpperCase();
+      const type = fileTypeExtConvert(fileExtension);
+
+      try {
+        await postUserFragments(user, type, selectedFile);
+        setSelectedFile(null);
+        setOpen(false);
+      } catch (error) {
+        console.error("Error uploading fragment:", error);
+      }
     }
   };
 
@@ -138,7 +155,12 @@ export default function TableComponent() {
                 <TableCell align="right">{row.size}</TableCell>
                 <TableCell align="right">{row.type}</TableCell>
                 <TableCell align="right">
-                  <Button variant="contained" onClick={()=>{handleViewClick(row.id)}}>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      handleViewClick(row.id);
+                    }}
+                  >
                     View
                   </Button>
                 </TableCell>

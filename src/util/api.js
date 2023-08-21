@@ -57,15 +57,21 @@ export async function getFragmentById(user, id) {
     const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
       // Generate headers with the proper Authorization bearer token to pass
       headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
         Authorization: `Bearer ${user.idToken}`
       },
     });
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    const data = await res.json();
-    // console.log('Got user fragments expanded data', { data });
+    const type = res.headers.get('content-type')
+    let data
+    if (type === 'image/jpeg' || type === 'image/gif' || type === 'image/webp' || type === 'image/png') {
+      data = res.blob()
+
+    } else {
+      data = res.text()
+    }
     return data
   } catch (err) {
     console.error('Unable to call GET /v1/fragments', { err });
@@ -149,10 +155,8 @@ export async function deleteUserFragments(user, id) {
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    return true
   } catch (err) {
     console.error('Unable to call DELETE /v1/fragments', { err });
-    return false
   }
 }
 
@@ -177,8 +181,8 @@ export async function convertUserFragments(user, id, type) {
       case "image/png":
         type_ext = ".png";
         break;
-      case "image/jpg":
-        type_ext = ".jpg";
+      case "image/jpeg":
+        type_ext = ".jpeg";
         break;
       case "image/webp":
         type_ext = ".webp";

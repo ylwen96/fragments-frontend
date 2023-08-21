@@ -34,8 +34,16 @@ const Fragment = () => {
       try {
         const response1 = await getFragmentById(user, id);
         const response2 = await getFragmentInfoById(user, id);
-        setIsImage(typeof response1.data === "string" ? false : true);
-        return { response1, response2 };
+        setData(response1);
+        setDataInfo(response2.fragment);
+        if (
+          response2.fragment.type === "image/png" ||
+          response2.fragment.type === "image/jpeg" ||
+          response2.fragment.type === "image/webp" ||
+          response2.fragment.type === "image/gif"
+        ) {
+          setIsImage(response1);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -51,10 +59,7 @@ const Fragment = () => {
   };
 
   useEffect(() => {
-    fetchData().then((res) => {
-      setData(res.response1.data);
-      setDataInfo(res.response2.fragment);
-    });
+    fetchData();
   }, [fetchData]);
 
   const handleClose = () => {
@@ -77,8 +82,8 @@ const Fragment = () => {
         <Card sx={{ maxWidth: 900, minWidth: 300 }}>
           {isImage && (
             <CardMedia
-              sx={{ height: 300 }}
-              image="/static/images/cards/contemplative-reptile.jpg"
+              sx={{ height: 600, objectFit: "cover" }}
+              image={URL.createObjectURL(data)}
               title="green iguana"
             />
           )}
@@ -107,10 +112,12 @@ const Fragment = () => {
             <Typography gutterBottom variant="h5" component="div">
               {dataInfo.id}
             </Typography>
-            <Typography variant="body3">{data}</Typography>
+            {!isImage && <Typography variant="body3">{data}</Typography>}
             <br />
             <br />
-            <br />
+            <Typography gutterBottom variant="h6" component="div">
+              Fragment Info:
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               Owner Id: {dataInfo.ownerId}
             </Typography>
@@ -119,6 +126,12 @@ const Fragment = () => {
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Type: {dataInfo.type}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Created At: {dataInfo.created}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Updated At: {dataInfo.updated}
             </Typography>
           </CardContent>
           <CardActions sx={{ p: 2 }}>
