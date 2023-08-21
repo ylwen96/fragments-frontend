@@ -86,14 +86,14 @@ export default function TableComponent() {
 
   const fileTypeExtConvert = (fileName) => {
     const extensionToMIME = {
-      TXT: "text/plain",
-      MD: "text/markdown",
-      HTML: "text/html",
-      JSON: "application/json",
-      PNG: "image/png",
-      JPG: "image/jpeg",
-      WEBP: "image/webp",
-      GIF: "image/gif",
+      txt: "text/plain",
+      md: "text/markdown",
+      html: "text/html",
+      json: "application/json",
+      png: "image/png",
+      jpg: "image/jpeg",
+      webp: "image/webp",
+      gif: "image/gif",
     };
 
     return extensionToMIME[fileName] || null;
@@ -107,7 +107,7 @@ export default function TableComponent() {
       const fileName = selectedFile.name;
       const fileExtension = fileName
         .substring(fileName.lastIndexOf(".") + 1)
-        .toUpperCase();
+        .toLowerCase();
       const type = fileTypeExtConvert(fileExtension);
 
       try {
@@ -138,35 +138,39 @@ export default function TableComponent() {
             </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {data
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row) => (
-              <TableRow
-                key={row.index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.index}
-                </TableCell>
-                <TableCell align="right">{row.id}</TableCell>
-                <TableCell align="right">{row.created}</TableCell>
-                <TableCell align="right">{row.updated}</TableCell>
-                <TableCell align="right">{row.size}</TableCell>
-                <TableCell align="right">{row.type}</TableCell>
-                <TableCell align="right">
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      handleViewClick(row.id);
-                    }}
-                  >
-                    View
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
+        {data ? (
+          <TableBody>
+            {data
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => (
+                <TableRow
+                  key={row.index}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.index}
+                  </TableCell>
+                  <TableCell align="right">{row.id}</TableCell>
+                  <TableCell align="right">{row.created}</TableCell>
+                  <TableCell align="right">{row.updated}</TableCell>
+                  <TableCell align="right">{row.size}</TableCell>
+                  <TableCell align="right">{row.type}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        handleViewClick(row.id);
+                      }}
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        ) : (
+          <div>Loading...</div>
+        )}
       </Table>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}

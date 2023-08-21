@@ -124,13 +124,14 @@ export async function postUserFragments(user, type, content) {
 }
 
 // PUT fragment
-export async function putUserFragments(user, id, content) {
+export async function putUserFragments(user, id, type, content) {
   console.log("User just put a '", id, "' fragment");
   try {
     const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${user.idToken}`,
+        "Content-Type": type,
       },
       body: content
     })
