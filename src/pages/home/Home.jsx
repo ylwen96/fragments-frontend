@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <Typography variant="h5" component="div" className="home-title">
-        Welcome on board, you are signed in as "{user && user.username}"!
+        Welcome Aboard Captain, you are signed in as "{user && user.username}"!
       </Typography>
       <div className="table-container">
         <TableComponent user={user} />

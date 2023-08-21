@@ -133,7 +133,7 @@ const Fragment = () => {
         await putUserFragments(user, id, type, selectedFile);
         setSelectedFile(null);
         setOpenEdit(false);
-        fetchData()
+        fetchData();
       } catch (error) {
         console.error("Error uploading fragment:", error);
       }
@@ -144,7 +144,7 @@ const Fragment = () => {
     <div className="fragment-container">
       {data && dataInfo ? (
         <>
-          <Card sx={{ maxWidth: 900, minWidth: 300 }}>
+          <Card sx={{ width: 900 }}>
             {isImage && (
               <CardMedia
                 sx={{ height: 600, objectFit: "cover" }}
@@ -182,9 +182,6 @@ const Fragment = () => {
               <br />
               <Typography gutterBottom variant="h6" component="div">
                 Fragment Info:
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Owner Id: {dataInfo.ownerId}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Size: {dataInfo.size}
