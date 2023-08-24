@@ -3,7 +3,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import Navbar from "./components/navbar/navbar";
-import PrivateRoutes from "./util/privateRoutes";
+import PrivateRoutes from "./util/privateRoutes.js";
 import Fragment from "./pages/fragment/Fragment";
 
 
