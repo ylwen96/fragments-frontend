@@ -29,7 +29,7 @@ A fragment is defined as the following formats:
 
 ## API URL
  
-Backend API link:http://ec2-34-207-176-17.compute-1.amazonaws.com:8080
+Backend API link: http://ec2-3-81-54-111.compute-1.amazonaws.com:8080
 
 Github source code: https://github.com/yuelin-wen/fragments-backend
 
