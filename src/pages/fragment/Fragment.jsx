@@ -111,6 +111,7 @@ const Fragment = () => {
       json: "application/json",
       png: "image/png",
       jpg: "image/jpeg",
+      jpeg: "image/jpeg",
       webp: "image/webp",
       gif: "image/gif",
     };

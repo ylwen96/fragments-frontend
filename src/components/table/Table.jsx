@@ -26,12 +26,13 @@ export default function TableComponent() {
   const [selectedFile, setSelectedFile] = useState(null);
   const user = useSelector((state) => state.auth.user);
 
-  useEffect(() => {
-    getUserFragmentsExpanded(user).then((res) => {
-      if (typeof res != "undefined") {
+  const fetchData = useCallback(async () => {
+    try {
+      const data = await getUserFragmentsExpanded(user);
+      if (typeof data != "undefined") {
         let arr = [];
-        for (let i = 0; i < res.fragments.length; i++) {
-          let obj = { index: i + 1, ...res.fragments[i] };
+        for (let i = 0; i < data.fragments.length; i++) {
+          let obj = { index: i + 1, ...data.fragments[i] };
           arr.push(obj);
         }
         setData(arr);
@@ -48,8 +49,12 @@ export default function TableComponent() {
           },
         ]);
       }
-    });
+    } catch (error) {}
   }, [user]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleViewClick = (id) => {
     navigate(`/fragments/${id}`);
@@ -92,6 +97,7 @@ export default function TableComponent() {
       json: "application/json",
       png: "image/png",
       jpg: "image/jpeg",
+      jpeg: "image/jpeg",
       webp: "image/webp",
       gif: "image/gif",
     };
@@ -99,7 +105,8 @@ export default function TableComponent() {
     return extensionToMIME[fileName] || null;
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (event) => {
+    event.preventDefault();
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
@@ -114,6 +121,7 @@ export default function TableComponent() {
         await postUserFragments(user, type, selectedFile);
         setSelectedFile(null);
         setOpen(false);
+        fetchData()
       } catch (error) {
         console.error("Error uploading fragment:", error);
       }
