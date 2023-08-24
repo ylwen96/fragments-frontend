@@ -26,6 +26,18 @@ const Navbar = () => {
     });
   };
 
+  const userSignedIn = () => {
+    if (typeof isUserSignedIn !== "boolean") {
+      return false;
+    } else {
+      if (isUserSignedIn) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   return (
     <div className="navbar-container">
       <Box sx={{ flexGrow: 1 }}>
@@ -37,7 +49,7 @@ const Navbar = () => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              disabled={!isUserSignedIn}
+              disabled={!userSignedIn()}
               href="/"
             >
               <HomeIcon />
@@ -45,7 +57,7 @@ const Navbar = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               My Fragments
             </Typography>
-            {isUserSignedIn && (
+            {userSignedIn() && (
               <Button variant="outlined" color="inherit" onClick={handleLogOff}>
                 Log off
               </Button>

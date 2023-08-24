@@ -24,13 +24,18 @@ const createSignInSession = (username, idToken, accessToken, days) => {
     createStorage(StorageTypes.ACCESS_TOKEN_STORAGE, accessToken, days);
 };
 
-const isSignedIn = () => {
-    return getUser().then((user) => {
-        return user.idToken === readStorage(StorageTypes.ID_TOKEN_STORAGE)
-    }).catch((error) => {
+const isSignedIn = async () => {
+    try {
+        const user = await getUser();
+        if (user !== null) {
+            return user.idToken === readStorage(StorageTypes.ID_TOKEN_STORAGE)
+        } else {
+            return false
+        }
+    } catch (error) {
         console.error("Error:", error);
         return false;
-    });
+    }
 };
 
 
