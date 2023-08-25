@@ -29,7 +29,7 @@ A fragment is defined as the following formats:
 
 ## API URL
  
-Backend API link: http://ec2-3-81-54-111.compute-1.amazonaws.com:8080
+Backend API link: http://ec2-54-89-156-98.compute-1.amazonaws.com:8080
 
 Github source code: https://github.com/yuelin-wen/fragments-backend
 
@@ -44,3 +44,18 @@ In the project directory, you can run:
 ### `npm install`
 
 ### `npm start`
+
+## Using Instructions
+
+Since my API is running on EC2, I didn't make my backend API support https, so there will be an error when you browse the app. (I only want to make a simple and "free" app for now)
+
+![image](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/7f6bb797-31bb-4a4b-888c-6706965617f3)
+
+To resolve this problem, When you get to the website, please change your browser settings to allow HTTP requests, then reload your browser.
+
+![image](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/72300e8c-609b-4e5b-8336-bc186f901c81)
+
+![image](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/ff2ecb40-4366-4af2-8fd6-10a5d4264cd8)
+
+
+
