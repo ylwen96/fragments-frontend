@@ -34,7 +34,7 @@ const isSignedIn = async () => {
         }
     } catch (error) {
         console.error("Error:", error);
-        return false;
+        return false
     }
 };
 

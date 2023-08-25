@@ -10,25 +10,24 @@ import { setUserSignOut } from "../../redux/auth/authSlice";
 
 const Home = () => {
   const user = useSelector((state) => state.auth.user);
+  console.log(user.idToken);
 
   const dispatch = useDispatch();
 
   const fetchUser = useCallback(async () => {
     try {
       const res = await getUser();
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchUser().then((res) => {
       if (res.idToken !== readStorage(StorageTypes.ID_TOKEN_STORAGE)) {
         dispatch(setUserSignOut());
       }
-    }); // eslint-disable-next-line
-  }, []);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   return (
     <div className="home-container">

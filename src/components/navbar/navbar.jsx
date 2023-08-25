@@ -17,6 +17,7 @@ import { setUserSignOut } from "../../redux/auth/authSlice";
 const Navbar = () => {
   const navigate = useNavigate();
   const isUserSignedIn = useSelector((state) => state.auth.isUserSignedIn);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const handleLogOff = () => {
@@ -24,18 +25,6 @@ const Navbar = () => {
       navigate("/login");
       dispatch(setUserSignOut());
     });
-  };
-
-  const userSignedIn = () => {
-    if (typeof isUserSignedIn !== "boolean") {
-      return false;
-    } else {
-      if (isUserSignedIn) {
-        return true;
-      } else {
-        return false;
-      }
-    }
   };
 
   return (
@@ -49,7 +38,7 @@ const Navbar = () => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              disabled={!userSignedIn()}
+              disabled={!(isUserSignedIn && user.idToken !== '')}
               href="/"
             >
               <HomeIcon />
@@ -57,7 +46,7 @@ const Navbar = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               My Fragments
             </Typography>
-            {userSignedIn() && (
+            {isUserSignedIn && user.idToken !== '' && (
               <Button variant="outlined" color="inherit" onClick={handleLogOff}>
                 Log off
               </Button>

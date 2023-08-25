@@ -8,18 +8,14 @@ import { useSelector } from 'react-redux';
 
 
 function App() {
-  const isUserSignedIn = useSelector((state) => state.auth.isUserSignedIn);
+  const isUserSignedIn = useSelector((state) => state.auth.isUserSignedIn)
+  const user = useSelector((state) => state.auth.user);
 
   const PrivateRoutes = () => {
-    if (typeof isUserSignedIn !== 'boolean') {
-      return <Navigate to="/login" />
-    } else {
-      if (isUserSignedIn) {
-        return <Outlet />
-
-      } else {
-        return <Navigate to="/login" />
-      }
+    if(isUserSignedIn && user.idToken !== ''){
+      return <Outlet />
+    }else{
+      return < Navigate to="/login" />
     }
   }
 
