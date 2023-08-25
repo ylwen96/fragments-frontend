@@ -10,7 +10,6 @@ import { setUserSignOut } from "../../redux/auth/authSlice";
 
 const Home = () => {
   const user = useSelector((state) => state.auth.user);
-  console.log(user.idToken);
 
   const dispatch = useDispatch();
 

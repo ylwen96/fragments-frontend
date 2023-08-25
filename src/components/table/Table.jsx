@@ -17,7 +17,17 @@ import { getUserFragmentsExpanded, postUserFragments } from "../../util/api";
 import { useSelector } from "react-redux";
 
 export default function TableComponent() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      created: "",
+      id: "",
+      index: 0,
+      ownerId: "",
+      size: 0,
+      type: "",
+      updated: "",
+    },
+  ]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
@@ -36,18 +46,6 @@ export default function TableComponent() {
           arr.push(obj);
         }
         setData(arr);
-      } else {
-        setData([
-          {
-            created: "",
-            id: "",
-            index: 0,
-            ownerId: "",
-            size: 0,
-            type: "",
-            updated: "",
-          },
-        ]);
       }
     } catch (error) {}
   }, [user]);
@@ -121,7 +119,7 @@ export default function TableComponent() {
         await postUserFragments(user, type, selectedFile);
         setSelectedFile(null);
         setOpen(false);
-        fetchData()
+        fetchData();
       } catch (error) {
         console.error("Error uploading fragment:", error);
       }
