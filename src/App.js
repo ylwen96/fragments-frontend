@@ -4,6 +4,7 @@ import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import Navbar from "./components/navbar/navbar";
 import Fragment from "./pages/fragment/Fragment";
+import NotFound from "./pages/notFound/NotFound";
 import { useSelector } from 'react-redux';
 
 
@@ -29,6 +30,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="*" element={< NotFound/>}/>
       </Routes>
     </>)
 }
