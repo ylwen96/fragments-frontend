@@ -1,4 +1,4 @@
-# My Fragments App
+# My Fragments Microservice
 
 My Fragment front-end app
 
@@ -10,7 +10,7 @@ My Fragment front-end app
 
 Introducing a cutting-edge cloud-based microservice meticulously designed to cater to the needs of both companies and users seeking a robust system for efficient fragment data management. This sophisticated service empowers users with the essential functionalities of creating, reading, updating, and deleting fragments, thereby facilitating a comprehensive approach to handling fragmented data.
 
-All of the data are stored and secured by AWS s3. The user pool are protected by AWS Cognito. And the service is deployed in AWS cloud.
+All of the data are stored and secured by AWS S3. The user pool is protected by AWS Cognito. The service is deployed in the AWS cloud.
 
 ## Fragment supported type
 
@@ -27,11 +27,17 @@ A fragment is defined as the following formats:
 | WebP Image    | `image/webp`        | `.webp`   |
 | GIF Image     | `image/gif`         | `.gif`    |
 
+## App Demo
+
+App Url: https://fragments-frontend.vercel.app
+
+Youtube Link: https://youtu.be/gQXxX0mSVQc
+
 ## API URL
  
-Backend API link: http://ec2-54-89-156-98.compute-1.amazonaws.com:8080
+Backend API link: http://ec2-3-88-239-27.compute-1.amazonaws.com:8080
 
-Github source code: https://github.com/yuelin-wen/fragments-backend
+Backend source code: https://github.com/yuelin-wen/fragments-backend
 
 ## Contact
 
@@ -41,21 +47,12 @@ If you have any questions, please feel free to email weny36@mcmaster.ca
 
 In the project directory, you can run:
 
+### Need to add `env`
+
 ### `npm install`
 
 ### `npm start`
 
-## Using Instructions
-
-Since my API is running on EC2, I didn't make my backend API support https, so there will be an error when you browse the app. (I only want to make a simple and "free" app for now)
-
-![image](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/7f6bb797-31bb-4a4b-888c-6706965617f3)
-
-To resolve this problem, When you get to the website, please change your browser settings to allow HTTP requests, then reload your browser.
-
-![image](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/72300e8c-609b-4e5b-8336-bc186f901c81)
-
-![image](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/ff2ecb40-4366-4af2-8fd6-10a5d4264cd8)
 
 
 
