@@ -29,13 +29,15 @@ A fragment is defined as the following formats:
 
 ## App Demo
 
-App Url: https://fragments-frontend.vercel.app
+App Url: http://ec2-18-234-47-152.compute-1.amazonaws.com:3000
 
 Youtube Link: https://youtu.be/gQXxX0mSVQc
 
+(Hint: User has to follow the AWS Cognito user authentication process, please sign up with a real email to receive a verification code. You are also welcome to watch my demo presentation on YouTube)
+
 ## API URL
  
-Backend API link: http://ec2-3-88-239-27.compute-1.amazonaws.com:8080
+Backend API link: http://ec2-18-234-47-152.compute-1.amazonaws.com:8080
 
 Backend source code: https://github.com/yuelin-wen/fragments-backend
 
