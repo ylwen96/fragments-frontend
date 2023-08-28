@@ -57,8 +57,5 @@
     "url": "git+https://github.com/yuelin-wen/fragments-frontend.git"
   },
   "author": "Yuelin Wen <weny36@mcmaster.ca>",
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  }
+  "license": "UNLICENSED"
 }
