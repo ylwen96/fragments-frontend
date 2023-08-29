@@ -13,6 +13,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { Button, Container, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { Alert } from "@mui/material";
 import {
   getFragmentById,
   getFragmentInfoById,
@@ -22,6 +23,7 @@ import {
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
+import { isSupportedType } from "../../util/fileTypeValid";
 
 const Fragment = () => {
   const [data, setData] = useState(null);
@@ -33,6 +35,7 @@ const Fragment = () => {
   const [isImage, setIsImage] = useState(false);
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
+  const [inputFileError, setInputFileError] = useState(false);
 
   const fetchData = useCallback(async () => {
     if (id != null) {
@@ -130,6 +133,11 @@ const Fragment = () => {
         .toLowerCase();
       const type = fileTypeExtConvert(fileExtension);
 
+      if (!isSupportedType(type)) {
+        setInputFileError(true);
+        return;
+      }
+
       try {
         await putUserFragments(user, id, type, selectedFile);
         setSelectedFile(null);
@@ -224,7 +232,7 @@ const Fragment = () => {
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 width: 532,
-                height: 430,
+                height: 530,
                 bgcolor: "background.paper",
                 boxShadow: 24,
                 // padding: "44px 51px",
@@ -237,7 +245,7 @@ const Fragment = () => {
                 variant="h6"
                 component="h2"
               >
-                Add Fragment
+                Edit Fragment
               </Typography>
               <Container>
                 <div
@@ -250,8 +258,15 @@ const Fragment = () => {
                 >
                   <input {...getInputProps()} />
                   <p>Drag and drop a file here, or click to select a file</p>
+                  <p>
+                    *only support .txt, .md, .html, .json, .png, .jpg, .webp,
+                    .gif*
+                  </p>
                 </div>
                 {selectedFile && <Typography>{selectedFile.name}</Typography>}
+                {inputFileError && (
+                  <Alert severity="error">Invalid file type</Alert>
+                )}
               </Container>
               <div>
                 <Button size="small" variant="contained" onClick={handleUpload}>

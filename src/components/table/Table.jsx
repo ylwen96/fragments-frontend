@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import "./styles.scss";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
+import { Alert } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
@@ -15,6 +16,7 @@ import Modal from "@mui/material/Modal";
 import { useDropzone } from "react-dropzone";
 import { getUserFragmentsExpanded, postUserFragments } from "../../util/api";
 import { useSelector } from "react-redux";
+import { isSupportedType } from "../../util/fileTypeValid";
 
 export default function TableComponent() {
   const [data, setData] = useState([
@@ -35,6 +37,7 @@ export default function TableComponent() {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const user = useSelector((state) => state.auth.user);
+  const [inputFileError, setInputFileError] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -114,6 +117,11 @@ export default function TableComponent() {
         .substring(fileName.lastIndexOf(".") + 1)
         .toLowerCase();
       const type = fileTypeExtConvert(fileExtension);
+
+      if (!isSupportedType(type)) {
+        setInputFileError(true);
+        return;
+      }
 
       try {
         await postUserFragments(user, type, selectedFile);
@@ -200,7 +208,7 @@ export default function TableComponent() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 532,
-            height: 430,
+            height: 530,
             bgcolor: "background.paper",
             boxShadow: 24,
             // padding: "44px 51px",
@@ -226,8 +234,14 @@ export default function TableComponent() {
             >
               <input {...getInputProps()} />
               <p>Drag and drop a file here, or click to select a file</p>
+              <p>
+                *only support .txt, .md, .html, .json, .png, .jpg, .webp, .gif*
+              </p>
             </div>
             {selectedFile && <Typography>{selectedFile.name}</Typography>}
+            {inputFileError && (
+              <Alert severity="error">Invalid file type</Alert>
+            )}
           </Container>
           <div>
             <Button size="small" variant="contained" onClick={handleUpload}>
