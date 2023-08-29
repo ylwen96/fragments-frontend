@@ -21,15 +21,16 @@ import { isSupportedType } from "../../util/fileTypeValid";
 export default function TableComponent() {
   const [data, setData] = useState([
     {
-      created: "",
-      id: "",
+      created: "null",
+      id: "null",
       index: 0,
-      ownerId: "",
+      ownerId: "null",
       size: 0,
-      type: "",
-      updated: "",
+      type: "null",
+      updated: "null",
     },
   ]);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
@@ -48,6 +49,13 @@ export default function TableComponent() {
           let obj = { index: i + 1, ...data.fragments[i] };
           arr.push(obj);
         }
+        arr.sort((a, b) => {
+          if (a["updated"] < b["updated"]) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
         setData(arr);
       }
     } catch (error) {}
@@ -142,7 +150,9 @@ export default function TableComponent() {
             <TableCell>Index</TableCell>
             <TableCell align="right">ID</TableCell>
             <TableCell align="right">Created At</TableCell>
-            <TableCell align="right">Updated At</TableCell>
+            <TableCell align="right">
+              Updated At
+            </TableCell>
             <TableCell align="right">Size</TableCell>
             <TableCell align="right">Type</TableCell>
             <TableCell align="right">
