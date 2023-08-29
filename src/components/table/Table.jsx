@@ -46,7 +46,8 @@ export default function TableComponent() {
       if (typeof data != "undefined") {
         let arr = [];
         for (let i = 0; i < data.fragments.length; i++) {
-          let obj = { index: i + 1, ...data.fragments[i] };
+          // let obj = { index: i + 1, ...data.fragments[i] };
+          let obj = data.fragments[i];
           arr.push(obj);
         }
         arr.sort((a, b) => {
@@ -147,12 +148,10 @@ export default function TableComponent() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Index</TableCell>
-            <TableCell align="right">ID</TableCell>
+            {/* <TableCell>Index</TableCell> */}
+            <TableCell>ID</TableCell>
             <TableCell align="right">Created At</TableCell>
-            <TableCell align="right">
-              Updated At
-            </TableCell>
+            <TableCell align="right">Updated At</TableCell>
             <TableCell align="right">Size</TableCell>
             <TableCell align="right">Type</TableCell>
             <TableCell align="right">
@@ -171,10 +170,13 @@ export default function TableComponent() {
                   key={row.index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  {/* <TableCell component="th" scope="row">
                     {row.index}
+                  </TableCell> */}
+                  <TableCell component="th" scope="row">
+                    {row.id}
                   </TableCell>
-                  <TableCell align="right">{row.id}</TableCell>
+                  {/* <TableCell align="right">{row.id}</TableCell> */}
                   <TableCell align="right">{row.created}</TableCell>
                   <TableCell align="right">{row.updated}</TableCell>
                   <TableCell align="right">{row.size}</TableCell>
