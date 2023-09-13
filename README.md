@@ -33,7 +33,7 @@ App Url: http://ec2-18-234-47-152.compute-1.amazonaws.com:3000
 
 Youtube Link: https://youtu.be/gQXxX0mSVQc
 
-(Hint: User has to follow the AWS Cognito user authentication process, please sign up with a real email to receive a verification code. You are also welcome to watch my demo presentation on YouTube)
+(Hint: The user has to follow the AWS Cognito user authentication process, Please sign up with a real email to receive a verification code. You are also welcome to watch my demo presentation on YouTube)
 
 ## API URL
  
@@ -41,20 +41,23 @@ Backend API link: http://ec2-18-234-47-152.compute-1.amazonaws.com:8080
 
 Backend source code: https://github.com/yuelin-wen/fragments-backend
 
+## Preview
+
+Fragments list
+
+![image](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/59961b03-f4ce-437a-9c01-53d25bf2ca72)
+
+Create Fragment
+
+![WX20230913-122350](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/c9e39091-11e3-41ae-b77a-c2b8349dbc2c)
+
+Read fragment (Update/Delete)
+
+![WX20230913-122407](https://github.com/yuelin-wen/fragments-frontend/assets/102840218/dfe87dab-50c0-49df-84d8-2906b21c036e)
+
 ## Contact
 
 If you have any questions, please feel free to email weny36@mcmaster.ca
-
-## Installation Scripts
-
-In the project directory, you can run:
-
-### Need to add `env`
-
-### `npm install`
-
-### `npm start`
-
 
 
 
