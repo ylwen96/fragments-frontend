@@ -36,7 +36,7 @@ Youtube Link: https://youtu.be/gQXxX0mSVQc
 (Hint: The user has to follow the AWS Cognito user authentication process, Please sign up with a real email to receive a verification code. You are also welcome to watch my demo presentation on YouTube)
 
 ## API URL
- 
+ (Note: The URL may not working anymore since i could not afford to pay my aws ec2 instance services :(, but you can find on my youtube URL if you wnat to watch demo).
 Backend API link: http://ec2-18-234-47-152.compute-1.amazonaws.com:8080
 
 Backend source code: https://github.com/yuelin-wen/fragments-backend
