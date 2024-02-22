@@ -29,7 +29,7 @@ A fragment is defined as the following formats:
 
 ## App Demo
 
-App Url: http://ec2-18-234-47-152.compute-1.amazonaws.com:3000
+App is not under deployment since i couldn't afford ec2 services, but i create a Youtube link to introduce my software functions.
 
 Youtube Link: https://youtu.be/gQXxX0mSVQc
 
