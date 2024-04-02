@@ -40,8 +40,6 @@ Youtube Link: https://youtu.be/gQXxX0mSVQc
  
 Backend API link: http://ec2-18-234-47-152.compute-1.amazonaws.com:8080
 
-Backend source code: https://github.com/yuelin-wen/fragments-backend
-
 ## Preview
 
 Fragments list
